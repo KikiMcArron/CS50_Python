@@ -1,14 +1,16 @@
 from dotenv import load_dotenv
 import stdiomask
 import os
+import time
 import openai as oi
 
 
 def main():
     api_key = setup_api_key()
+    os.system('clear')
     model_selection = select_model()
+    os.system('clear')
     prompt = get_user_prompt()
-
     response = generate_response(api_key, model_selection, prompt)
     print(response)
 
@@ -20,6 +22,7 @@ def setup_api_key():
     if not api_key:
         api_key = get_api_key_from_user()
         print("API key saved to .env file.")
+        time.sleep(5)
     else:
         api_key = confirm_api_key(api_key)
 
@@ -47,11 +50,14 @@ def is_valid_api_key(api_key):
 def confirm_api_key(api_key):
     while True:
         try:
-            print(f"Using API key: sk-{api_key[-4:]}")
+            os.system('clear')
+            print(f"Using API key: sk-...{api_key[-4:]}")
             answer = input("Is this correct? (Y/N) ")
             if answer.lower() == 'n':
+                os.system('clear')
                 api_key = get_api_key_from_user()
                 print("API key saved to .env file.")
+                time.sleep(5)
             elif answer.lower() == 'y':
                 break
             else:
